@@ -11,6 +11,7 @@ Visit [Senzem](http://www.senzem.com) for more details.
   * Node.js
   * [Compatible Bluetooth 4.0 adapter](https://github.com/sandeepmistry/node-bluetooth-hci-socket)
   * **NOTE:** Raspberry Pi 3 Model B has in-build compatible adapter, no additional hardware required.
+  * **OPTIONAL:** Node-RED (running on port 1880)
 
 
 ### Installation - for Raspberry Pi (SenzemHub version 0.7-raspi)
@@ -27,8 +28,9 @@ Visit [Senzem](http://www.senzem.com) for more details.
 4. run SenzemHub
   * `sudo node senzemhub.js`  
 
-5. browse SenzemHub (port is defined in config.js, default is 14555)
-  * open http://localhost:14555 
+5. browse SenzemHub 
+  * default port is 14555
+  * you can change port in config.js
 
 ### Installation - for developers and other systems
 
