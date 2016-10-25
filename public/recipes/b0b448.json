@@ -1,0 +1,233 @@
+[
+	{
+		"uuid": "0001",
+		"name": "Light Sensor",
+		"include": [
+			{
+				"name": "light sensor filter",
+				"filter": "f000aa7004514000b000000000000000",
+				"type": "service"
+			}
+		],
+		"view": [
+			{
+				"name": "luminosity",
+				"filter": "f000aa7004514000b000000000000000|f000aa7104514000b000000000000000",
+				"label": "LUMOSITY",
+				"format": "script",
+				"script": "var int16=bytes[1]*256+bytes[0]; var m=int16 & 0x0FFF; var e=(int16&0xF000)>>12; var r=m*(0.01*Math.pow(2.0, e)); Math.round(r*100)/100;",
+				"display": {
+					"type": "style",
+					"item": "width: 450px; background-color: #4cae4c; color: white;",
+					"reading": "",
+					"device": "",
+					"value": "",
+					"label": "Cd",
+					"label_style": "",
+					"background": "luminosity-white.png"
+				}
+			}
+		],
+		"init": [
+		"ENABLENOTIFICATION", 
+		"f000aa7004514000b000000000000000", 
+		"f000aa7104514000b000000000000000",
+		"WRITECHARACTERISTIC", 
+		"f000aa7004514000b000000000000000", 
+		"f000aa7304514000b000000000000000", 
+		"ff", 
+		"WRITECHARACTERISTIC", 
+		"f000aa7004514000b000000000000000", 
+		"f000aa7204514000b000000000000000", 
+		"01", 
+		"END"]
+	}
+	, {
+		"uuid": "0002",
+		"name": "Humidity Sensor",
+		"include": [
+			{
+				"name": "humidity sensor filter",
+				"filter": "f000aa2004514000b000000000000000",
+				"type": "service"
+			}
+		],
+		"view": [
+
+			{
+				"name": "humidity",
+				"filter": "f000aa2004514000b000000000000000|f000aa2104514000b000000000000000",
+				"label": "HUMIDITY",
+				"format": "script",
+				"script": "var int16=bytes[3]*256+bytes[2]; var m=int16 * 100/65536.0; Math.round(m * 100) / 100;",
+				"display": {
+					"type": "style",
+					"item": "background-color: orange;",
+					"reading": "",
+					"device": "",
+					"value": "",
+					"label": "%",
+					"label_style": "",
+					"background": "humidity-white.png"
+				}
+			}
+		],
+		"init": ["ENABLENOTIFICATION", "f000aa2004514000b000000000000000", "f000aa2104514000b000000000000000", "WRITECHARACTERISTIC", "f000aa2004514000b000000000000000", "f000aa2204514000b000000000000000", "01", "END"]
+	}, {
+		"uuid": "0003",
+		"name": "IR Temperature Sensor",
+		"include": [
+			{
+				"name": "ir temperature sensor filter",
+				"filter": "f000aa0004514000b000000000000000",
+				"type": "service"
+			}
+		],
+		"view": [
+
+			{
+				"name": "irtemperature",
+				"filter": "f000aa0004514000b000000000000000|f000aa0104514000b000000000000000",
+				"label": "IR TEMPERATURE",
+				"format": "script",
+				"script": "var objT=bytes[1]*256+bytes[0]; var ambT=bytes[3]*256+bytes[2]; var objit=objT>>2; var obj=0.03125*objit; var ambit=ambT>>2; var amb=0.03125*ambit; Math.round(obj * 100) / 100;;",
+				"display": {
+					"type": "style",
+					"item": "background-color: #d9534f; color: white;",
+					"reading": "",
+					"device": "",
+					"value": "",
+					"label": "°C",
+					"label_style": "",
+					"background": "temperature-white.png"
+				}
+			}
+		],
+		"init": ["ENABLENOTIFICATION", "f000aa0004514000b000000000000000", "f000aa0104514000b000000000000000", "WRITECHARACTERISTIC", "f000aa0004514000b000000000000000", "f000aa0204514000b000000000000000", "01", "END"]
+	}, {
+		"uuid": "0004",
+		"name": "Ambiental Temperature Sensor",
+		"include": [
+			{
+				"name": "amb temperature sensor filter",
+				"filter": "f000aa0004514000b000000000000000",
+				"type": "service"
+			}
+		],
+		"view": [
+
+			{
+				"name": "ambtemperature",
+				"filter": "f000aa0004514000b000000000000000|f000aa0104514000b000000000000000",
+				"label": "AMB TEMPERATURE",
+				"format": "script",
+				"script": "var objT=bytes[1]*256+bytes[0]; var ambT=bytes[3]*256+bytes[2]; var objit=objT>>2; var obj=0.03125*objit; var ambit=ambT>>2; var amb=0.03125*ambit; Math.round(amb * 100) / 100;;",
+				"display": {
+					"type": "style",
+					"item": "background-color: #d43f3a; color: white;",
+					"reading": "",
+					"device": "",
+					"value": "",
+					"label": "°C",
+					"label_style": "",
+					"background": "temperature-white.png"
+				}
+			}
+		],
+		"init": ["ENABLENOTIFICATION", "f000aa0004514000b000000000000000", "f000aa0104514000b000000000000000", "WRITECHARACTERISTIC", "f000aa0004514000b000000000000000", "f000aa0204514000b000000000000000", "01", "END"]
+	}, {
+		"uuid": "0005",
+		"name": "Barometric Pressure Sensor",
+		"include": [
+			{
+				"name": "barometric sensor filter",
+				"filter": "f000aa4004514000b000000000000000",
+				"type": "service"
+			}
+		],
+		"view": [
+
+			{
+				"name": "barpressure",
+				"filter": "f000aa4004514000b000000000000000|f000aa4104514000b000000000000000",
+				"label": "BAROMETRIC PRESSURE",
+				"format": "script",
+				"script": "var raw=bytes[5]*256*256+bytes[4]*256+bytes[3]; var pressure=raw/100.0; Math.round(pressure * 100) / 100;",
+				"display": {
+					"type": "style",
+					"item": "",
+					"reading": "",
+					"device": "",
+					"value": "",
+					"label": "mbar",
+					"label_style": "",
+					"background": "pressure.png"
+				}
+			}
+		],
+		"init": ["ENABLENOTIFICATION", 
+		"f000aa4004514000b000000000000000", "f000aa4104514000b000000000000000", "WRITECHARACTERISTIC", "f000aa4004514000b000000000000000", "f000aa4204514000b000000000000000", "01", "END"]
+	}, {
+		"uuid": "0006",
+		"name": "Button Sensor 1",
+		"include": [
+			{
+				"name": "button sensor filter",
+				"filter": "ffe0",
+				"type": "service"
+			}
+		],
+		"view": [
+
+			{
+				"name": "button",
+				"filter": "ffe0|ffe1",
+				"label": "BUTTON",
+				"format": "script",
+				"script": "var raw=bytes[0]; if (raw & 0x01){'ON'}else{'OFF'};",
+				"display": {
+					"type": "style",
+					"item": "",
+					"reading": "",
+					"device": "",
+					"value": "",
+					"label": "",
+					"label_style": "",
+					"background": "press.png"
+				}
+			}
+		],
+		"init": ["ENABLENOTIFICATION", "ffe0", "ffe1", "END"]
+	}, {
+		"uuid": "0007",
+		"name": "Button Sensor 2",
+		"include": [
+			{
+				"name": "button sensor filter",
+				"filter": "ffe0",
+				"type": "service"
+			}
+		],
+		"view": [
+
+			{
+				"name": "button",
+				"filter": "ffe0|ffe1",
+				"label": "BUTTON",
+				"format": "script",
+				"script": "var raw=bytes[0];  if (raw & 0x02){'ON'}else{'OFF'};",
+				"display": {
+							"type": "style",
+				"item": "",
+				"reading": "",
+				"device": "",
+				"value": "",
+				"label": "",
+				"label_style": "",
+				"background": "press.png"
+				}
+			}
+		],
+		"init": ["ENABLENOTIFICATION", "ffe0", "ffe1", "END"]
+	}
+]

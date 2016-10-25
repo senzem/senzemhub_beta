@@ -1,0 +1,24 @@
+<div class="alert alert-danger" ng-show="!progress && !done">
+
+	<br>
+	<div>
+		By pressing <em>Reset</em> button SenzemHub device will reboot.
+		<br>
+		<br>
+		All unsaved work will be lost.
+
+	</div>
+	<br>
+	<button class="btn btn-danger"  ng-click="resetDevice()">
+		Reset
+	</button>
+</div>
+
+<div class="alert alert-danger" ng-show="progress">
+	The device is rebooting now. Please wait ({{counter}}s)...
+</div>
+
+<div class="alert" style="white-space: pre-line;">
+	{{message}}
+
+</div>

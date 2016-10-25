@@ -1,0 +1,578 @@
+<!-- =================================================== -->
+<!-- Main nav, no bluetooth-->
+<!-- =================================================== -->
+<nav class="navbar navbar-default" style="background-color: lemonchiffon" ng-show="dashboard.name==null">
+	<div class="container-fluid">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<span class="navbar-brand" > <img alt="Brand" src="images/btle-s.png" style="margin-top: -5px"> </span>
+		</div>
+
+		<!-- Collect the nav links, forms, and other content for toggling -->
+		<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<ul class="nav navbar-nav">
+
+				<li >
+					<a style="color: red;"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Bluetooth is not available. Make sure BTLE device is enabled and restart the device. <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span></a>
+				</li>
+
+			</ul>
+		</div><!-- /.navbar-collapse -->
+	</div><!-- /.container-fluid -->
+</nav>
+
+<!-- =================================================== -->
+<!-- BTLE is on -->
+<!-- =================================================== -->
+<div ng-hide="dashboard.name==null">
+
+	<!-- =================================================== -->
+	<!-- Main nav, NodeRED hidden-->
+	<!-- =================================================== -->
+	<nav class="navbar navbar-default" style="background-color: lemonchiffon" ng-hide="showNodeRed">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<span class="navbar-brand" > <img alt="Brand" src="images/btle-s.png" style="margin-top: -5px"> </span>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav">
+					<li ng-show="dashboard.name!=null">
+						<a >Dashboard: <b>{{dashboard.name}}</b></a>
+					</li>
+					<li ng-show="dashboard.name==null">
+						<a style="color: red;"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Bluetooth is not available</a>
+					</li>
+
+					<li ng-hide='status.dashboardConnected || !showDashboard' ng-class='{disabled: dashboard.readings.length==0}' ng-click="connectDashboard()" >
+						<a ><span class="glyphicon glyphicon-transfer" aria-hidden="true" style="color: green;"></span> Connect Dashboard</a>
+					</li>
+					<li ng-hide='!status.dashboardConnected || !showDashboard'  ng-click="disconnectDashboard()" >
+						<a ><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: red;"></span> Disconnect Dashboard</a>
+					</li>
+					<li ng-hide='status.cloudConnected || !showDashboard'  ng-click="connectCloud()" >
+						<a ><span class="glyphicon glyphicon-cloud" aria-hidden="true" style="color: green;"></span> Connect to Cloud</a>
+					</li>
+					<li ng-hide='!status.cloudConnected || !showDashboard'   ng-click="disconnectCloud()" >
+						<a ><span class="glyphicon glyphicon-remove" aria-hidden="true" style="color: red;"></span> Disconnect from Cloud</a>
+					</li>
+					<li ng-hide='!status.cloudConnected  || !showDashboard'>
+						<a  href="https://quickstart.internetofthings.ibmcloud.com/#/device/{{dashboard.name}}/sensor/" target="_blank"><span class="glyphicon glyphicon-equalizer" aria-hidden="true" style="color: blue;"></span> {{cloud}}</a>
+
+					</li>
+
+					<li class="dropdown" ng-hide='!status.cloudConnected  || !showDashboard'>
+
+						<a  class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" style="padding-left: 0;"><span class="caret"></span></a>
+
+						<ul class="dropdown-menu dropdown-menu-right">
+							<li>
+								<a href="#/app">View Real-Time Cloud Data on SenzemCloud</a>
+							</li>
+							<li>
+								<a href="#/app" ng-click="setCloud('View Real-Time Cloud Data on IBM Quickstart')">View Real-Time Cloud Data on IBM Quickstart</a>
+							</li>
+							<li>
+								<a href="#/app">View Real-Time Cloud Data on Amazon AWS</a>
+							</li>
+							<li>
+								<a href="#/app">View Real-Time Cloud Data on Microsof Azure IoT</a>
+							</li>
+							<li role="separator" class="divider"></li>
+							<li>
+								<a href="#/app">Add New Cloud Provider</a>
+							</li>
+						</ul>
+					</li>
+					<li ng-click="toggleNodeRed()" ng-hide="!showDashboard">
+						<a style="color: firebrick;"><img alt="Brand" src="images/node-red.png" height="16px" > Node-RED</a>
+					</li>
+
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-show="showDashboard && !status.dashboardConnected"   ng-click="displayDashboard()" style="margin-right: 10px;">
+						<a ><span class="glyphicon glyphicon-list" aria-hidden="true" style="color: red;"></span> Edit Readings</a>
+					</li>
+					<li ng-show="!showDashboard && !status.dashboardConnected"   ng-click="displayDashboard()" style="margin-right: 10px;">
+						<a ><span class="glyphicon glyphicon-list" aria-hidden="true" style="color: green;"></span> View Dashboard</a>
+					</li>
+					<li ng-hide="status.dashboardConnected" ng-click="scan()"  style="margin-right: 10px;">
+						<a ><span class="glyphicon glyphicon-refresh" aria-hidden="true" style="color: blue;"></span> Scan</a>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<!-- =================================================== -->
+	<!-- Nav with NodeRED visible -->
+	<!-- =================================================== -->
+	<nav class="navbar navbar-default" style="background-color: lemonchiffon" ng-show="showNodeRed">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<span class="navbar-brand" > <img alt="Brand" src="images/btle-s.png" style="margin-top: -5px"> </span>
+			</div>
+
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
+				<ul class="nav navbar-nav">
+					<li >
+						<a >Dashboard: <b>{{dashboard.name}}</b></a>
+					</li>
+				</ul>
+
+				<ul class="nav navbar-nav navbar-right">
+					<li ng-click="toggleNodeRed()" >
+						<a style="color: firebrick;"><img alt="Brand" src="images/node-red.png" height="16px" > Hide Node-RED</a>
+					</li>
+				</ul>
+			</div><!-- /.navbar-collapse -->
+		</div><!-- /.container-fluid -->
+	</nav>
+
+	<!-- =================================================== -->
+	<!-- NodeRED -->
+	<!-- =================================================== -->
+	<div class="row no-gutter" ng-show="showNodeRed">
+		<div class="col-sm-2 ">
+			<table class="table node-red-column" >
+				<thead>
+					<tr>
+						<th><h4>Available Readings</h4></th>
+					</tr>
+				</thead>
+
+				<tr ng-repeat="key in readingKeys">
+					<td>
+					<div>
+						<b>{{key}}</b>
+					</div>
+					<div>
+						{{readingValues[key].deviceName}}
+					</div>
+					<div>
+						{{readingValues[key].name}}
+					</div>
+					<div>
+						Value: {{readingValues[key].value}}
+					</div></td>
+				</tr>
+
+				<tr ng-show="!status.dashboardConnected">
+					<td class="alert alert-danger"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Dashboard is not connected </td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="col-sm-10">
+			<iframe  id="NODERED"  frameborder="0"  width="100%" height="100%" class="node-red-column"></iframe>
+		</div>
+	</div>
+
+	<!-- =================================================== -->
+	<!-- MAIN-->
+	<!-- =================================================== -->
+	<div ng-hide="showNodeRed">
+
+		<!-- =================================================== -->
+		<!-- Wait alert -->
+		<!-- =================================================== -->
+		<div ng-show="working" class="working-wait">
+			<div class="working-wait-label">
+				Please wait...
+			</div>
+		</div>
+
+		<!-- =================================================== -->
+		<!-- Automatic reading alert -->
+		<!-- =================================================== -->
+		<div ng-show="status.autoOn" class="auto-wait">
+			<div class="auto-wait-label">
+				Automatic reading in progress, please wait...
+			</div>
+		</div>
+
+		<!-- =================================================== -->
+		<!-- Automatic refresh period alert -->
+		<!-- =================================================== -->
+		<div style="position: fixed; top:0; right: 0; display: none;">
+			&nbsp;&nbsp;Refresh in {{status.autoIn}}s
+		</div>
+
+		<!-- =================================================== -->
+		<!-- No devices alert -->
+		<!-- =================================================== -->
+		<div class="alert alert-danger" ng-show="devices.length==0">
+			<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> There are no available devices
+		</div>
+		<!-- =================================================== -->
+		<!-- Dashboard alert -->
+		<!-- =================================================== -->
+		<div class="alert alert-danger" ng-show="dashboardMessage">
+			{{dashboardMessage}}
+		</div>
+
+		<!-- =================================================== -->
+		<!-- Dashboard devices list -->
+		<!-- =================================================== -->
+		<div  ng-show="devices.length>0 && showDashboard && (!dashboardFullscreen || !status.dashboardConnected)" >
+
+			<div class="row no-gutter">
+				<div class="col-sm-2">
+					<div class="alert alert-warning column-left">
+						Available Devices
+					</div>
+				</div>
+				<div class="col-sm-10 column-right">
+					<div class="device-container"  >
+						<div class="device-item" ng-repeat="device in devices">
+							<img src="images/{{device.icon}}" width="64px" />&nbsp;&nbsp;&nbsp;
+							<div style="font-weight: bold;">
+								{{getDeviceName(device.peripheralId)}}
+							</div>
+							<div>
+								ID: {{device.peripheralId}}
+							</div>
+							<div>
+								RSSI: {{device.rssi}}db
+							</div>
+							<div style="position: absolute; top:0; right: 0">
+								#{{$index+1}}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<br>
+
+		<!-- =================================================== -->
+		<!-- No readings alert -->
+		<!-- =================================================== -->
+		<div class="alert alert-danger" ng-show="dashboard.readings.length==0 && showDashboard">
+			<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> There are no readings on the dashboard. Scan BTLE devices first and add some readings
+		</div>
+
+		<!-- =================================================== -->
+		<!-- Dashboard readings list -->
+		<!-- =================================================== -->
+		<div ng-hide="!showDashboard || status.dashboardConnected || dashboard.readings.length==0">
+
+			<div class="row no-gutter">
+				<div class="col-sm-2">
+					<div class="alert alert-warning column-left">
+						Dashboard Readings
+					</div>
+				</div>
+				<div class="col-sm-10 column-right" style="padding-bottom: 20px;">
+					<table class="table table-striped" >
+						<thead>
+							<tr>
+								<th></th>
+								<th>Reading</th>
+								<th>Device</th>
+								<th>Device ID</th>
+								<th>Reading ID</th>
+								<th></th>
+							</tr>
+
+						</thead>
+						<tr ng-repeat="reading in dashboard.readings">
+							<td>{{$index+1}}</td>
+							<td><b>{{reading.name}}</b><td> {{getDeviceName(reading.deviceId)}} </td>
+							<td> {{reading.deviceId}} </td>
+							<td> {{reading.recipeId}} </td>
+							<td><span ng-click="dashboardMove(reading, 1)" class="glyphicon glyphicon-arrow-up" style="color: orange; cursor: pointer; margin-right: 5px;"></span>&nbsp;&nbsp;&nbsp;<span ng-click="dashboardMove(reading, -1)" class="glyphicon glyphicon-arrow-down" style="color: orange; cursor: pointer; margin-right: 5px;"></span>&nbsp;&nbsp;&nbsp;<span ng-click="dashboardRemove(reading)" class="glyphicon glyphicon-remove" style="color: red; cursor: pointer;"></span></td>
+						</tr>
+					</table>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- =================================================== -->
+		<!-- Dashboard readings views -->
+		<!-- =================================================== -->
+		<div ng-show="status.dashboardConnected" class='row'>
+			<div class="dashboard-container" style="position: relative;">
+				<div class="dashboard-fullscreen" ng-click="toggleDashboardFullscreen()">
+					<span ng-show="dashboardFullscreen" class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span>
+					<span ng-hide="dashboardFullscreen" class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span>
+
+				</div>
+				<div ng-repeat='index in status.dashboard.indexes' class="dashboard-item" style="{{devices[index.deviceIndex].recipe.view[index.viewIndex].display.item}}">
+					<div class="dashboard-item-reading" style="{{devices[index.deviceIndex].recipe.view[index.viewIndex].display.reading}}">
+						{{devices[index.deviceIndex].recipe.view[index.viewIndex].reading.name}}
+					</div>
+					<div class="dashboard-item-device" style="{{devices[index.deviceIndex].recipe.view[index.viewIndex].display.device}}">
+						@ {{getDeviceName(devices[index.deviceIndex].recipe.view[index.viewIndex].reading.deviceId)}}
+					</div>
+					<div class="dashboard-item-icon" style="background-image: url({{devices[index.deviceIndex].recipe.view[index.viewIndex].display.background}})">
+
+					</div>
+					<div class="dashboard-item-value" style="{{devices[index.deviceIndex].recipe.view[index.viewIndex].display.value}}">
+						{{devices[index.deviceIndex].recipe.view[index.viewIndex].value}} {{devices[index.deviceIndex].recipe.view[index.viewIndex].display.label}}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- =================================================== -->
+		<!-- Edit readings -->
+		<!-- =================================================== -->
+		<div ng-hide="showDashboard || status.dashboardConnected">
+
+			<!-- =================================================== -->
+			<!-- Reading info popup-->
+			<!-- =================================================== -->
+			<div class="col-sm-5 reading-popup" ng-show="!deviceTooltip.Bconnected && recipeTooltip!=null">
+				<div class="dashboard-container">
+
+					<div ng-repeat='view in recipeTooltip.view' class="dashboard-item" style="{{view.display.item}}">
+						<div class="dashboard-item-reading" style="{{view.display.reading}}">
+							{{recipeTooltip.name}}
+						</div>
+						<div class="dashboard-item-device" style="{{view.display.device}}">
+							@ {{getDeviceName(deviceTooltip.peripheralId)}}
+						</div>
+						<div class="dashboard-item-value" style="{{view.display.value}}">
+							12.34 {{view.display.label}}
+						</div>
+						<div style="position: absolute; top:-25px; left:-25px; color: black; border: 1px solid black; padding: 5px 20px; background-color: white;">
+							PREVIEW
+						</div>
+						<div ng-show="isRecipeInDashboard(deviceTooltip.peripheralId, recipeTooltip.uuid)" style="position: absolute; top:-25px; right:-25px; color: white; border: 1px solid black; padding: 5px 20px; background-color: limegreen;">
+							ENABLED
+						</div>
+						<div ng-show="!isRecipeInDashboard(deviceTooltip.peripheralId, recipeTooltip.uuid)" style="position: absolute; top:-25px; right:-25px; color: white; border: 1px solid black; padding: 5px 20px; background-color: red;">
+							DISABLED
+						</div>
+
+					</div>
+				</div>
+				<br />
+				<div class="alert alert-info">
+					Recipe Content
+				</div>
+				<pre style="font-size: 0.7em; max-height: 250px; hidden; background-color: #FEFEFE;" >{{recipeTooltip | json}}</pre>
+			</div>
+
+			<!-- =================================================== -->
+			<!-- Reading edit for device-->
+			<!-- =================================================== -->
+			<div class="row well" ng-repeat="device in devices">
+
+				<div class="col-sm-6">
+					<div class="alert alert-info">
+						<div class="row">
+							<div class="col-sm-5">
+
+								<img src="images/{{device.icon}}" width="128px" />&nbsp;&nbsp;&nbsp;
+								<div ng-show="!device.editName"  style="font-weight: bold;">
+									{{getDeviceName(device.peripheralId)}}
+									&nbsp;&nbsp;&nbsp;<span ng-click="editDeviceName(device)" class="glyphicon glyphicon-edit" style="color: gray; cursor:pointer;"></span>
+								</div>
+								<div ng-show="device.editName"  style="font-weight: bold;">
+									<div>
+										<input ng-model="name" ng-value="device.name" class="form-control"/>
+									</div>
+									<div style="margin-top: 6px;">
+										<button ng-click="changeDeviceName(device, name)"  class="btn btn-success">
+											Save
+										</button>
+										<button ng-click="cancelEditDeviceName(device)" class="btn btn-danger">
+											Cancel
+										</button>
+									</div>
+								</div>
+								&nbsp;&nbsp;&nbsp;
+								<div>
+									UUID: [{{device.peripheralId}}]
+								</div>
+
+								<br>
+								<br>
+
+								<!-- <div ng-show='device.Bconnected==true' class='btn btn-default' ng-click="showServices(device)">
+								Show/Hide Views
+								</div> -->
+							</div>
+							<div class="col-sm-7" ng-show="device.uimessage!='' && device.uimessage!=null">
+								<div  class="alert alert-danger">
+									{{device.uimessage}}
+								</div>
+							</div>
+							<div class="col-sm-7" ng-hide="device.uimessage!='' && device.uimessage!=null">
+
+								<div ng-show="device.recipes.length>0">
+
+									Found {{device.recipes.length}} recipes for this device:
+								</div>
+
+								<div ng-repeat='recipe in device.recipes'>
+									<div style="padding: 6px;">
+
+										<button style="width: 250px; text-align: left;" class='btn btn-default' ng-class='{disabled: device.Bconnected}' >
+											<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;{{recipe.name}}
+										</button>
+										
+										<!--
+											connect and read recipe
+										<button style="width: 250px; text-align: left;" class='btn btn-default' ng-class='{disabled: device.Bconnected}' ng-click="connectDevice(device.peripheralId, recipe.uuid)">
+											<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>&nbsp;&nbsp;{{recipe.name}}
+										</button>
+										-->
+										
+										<button  ng-mouseover="showRecipeTooltip(recipe, device)" ng-click="modifyDashboard(device.peripheralId, recipe.uuid, false, null, null)"  class="btn btn-danger" ng-show="isRecipeInDashboard(device.peripheralId, recipe.uuid)">
+											<span class="glyphicon glyphicon-remove"></span>
+										</button>
+										<button  ng-mouseover="showRecipeTooltip(recipe, device)"  ng-click="modifyDashboard(device.peripheralId, recipe.uuid, true, device.name, recipe.name)" class="btn btn-success"  ng-show="!isRecipeInDashboard(device.peripheralId, recipe.uuid);">
+											<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+										</button>
+
+									</div>
+								</div>
+								<br>
+								<div >
+									<br>
+									Browse device services and create new recipes
+
+								</div>
+								<br>
+								<div ng-show='device.Bconnected!=true' disabled class='btn btn-warning' ng-click="connectDevice(device.peripheralId)">
+									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Browse Device &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+								</div>
+								<div ng-show='device.Bconnected==true' class='btn btn-danger' ng-click="disconnectDevice(device.peripheralId)">
+									DISCONNECT
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div class="col-sm-6">
+					<!--<div class="col-sm-5" ng-show="device.Bconnected">-->
+					<div ng-show="device.recipe">
+						<div class="dashboard-container">
+
+							<div ng-repeat='view in device.recipe.view' class="dashboard-item" style="{{view.display.item}}">
+								<div class="dashboard-item-reading" style="{{view.display.reading}}">
+									{{device.recipe.name}}
+								</div>
+								<div class="dashboard-item-device" style="{{view.display.device}}">
+									@ {{getDeviceName(device.peripheralId)}}
+								</div>
+								<div class="dashboard-item-value" style="{{view.display.value}}">
+									{{view.value}} {{view.display.label}}
+								</div>
+							</div>
+						</div>
+
+					</div>
+				</div>
+				
+				<div ng-show="!device.recipe && device.Bconnected" class="col-sm-6">
+
+						<table class="table  alert alert-warning">
+							<thead>
+								<th class="col-md-4"> Service </th>
+								<th class="col-md-8"> Characteristics/Descriptors </th>
+							</thead>
+							<tbody>
+								<tr ng-repeat="service in device.services">
+									<td> {{service.uuid}}
+									<br>
+									{{service.name}} </td>
+									<td>
+									<table class="table table-striped">
+										<tbody>
+											<tr ng-repeat="characteristic in service.characteristics">
+
+												<td > {{characteristic.uuid}}
+												<br>
+												{{characteristic.name}}
+												<br>
+												{{characteristic.value}}
+												<br>
+												<span
+												ng-click='readCharacteristic(device.peripheralId, service.uuid, characteristic.uuid)'
+												ng-show="characteristic.properties.indexOf('read')!=-1"
+												class="btn btn-success"> R </span><span
+												ng-show="characteristic.properties.indexOf('notify')!=-1"
+												class="btn btn-info">N </span><span ng-show="characteristic.properties.indexOf('indicate')!=-1"
+												class="btn btn-default">I </span>
+												</td><td>												<span ng-show="characteristic.properties.indexOf('write')!=-1" ng-click='writeCharacteristic(device.peripheralId, service.uuid, characteristic.uuid, "00")' class="btn btn-danger">W0 </span>
+												<span ng-show="characteristic.properties.indexOf('write')!=-1" ng-click='writeCharacteristic(device.peripheralId, service.uuid, characteristic.uuid, "01")' class="btn btn-danger">W1 </span>
+												
+												
+												<input ng-show="characteristic.properties.indexOf('write')!=-1" class="form-control" ng-model="writeData" style="margin-top: 10px; min-width: 200px;"></input>
+												<span ng-show="characteristic.properties.indexOf('write')!=-1"  ng-click='writeCharacteristic(device.peripheralId, service.uuid, characteristic.uuid, writeData)' class="btn btn-danger" ng-disabled="writeData==null || writeData===''" >WRITE </span>
+												
+												
+												
+												
+												<span ng-show="characteristic.properties.indexOf('writeWithoutResponse')!=-1" class="btn btn-warning">WwR </span>
+												
+												
+												</td>
+												<td >
+												<table class="table table-striped">
+													<tbody>
+														<tr ng-repeat="descriptor in characteristic.descriptors">
+
+															<td > {{descriptor.uuid}}
+															<br>
+															{{descriptor.name}}
+															<br>
+															{{descriptor.value}}
+															<br>
+															<span
+															ng-click='readDescriptor(device.peripheralId, service.uuid, characteristic.uuid, descriptor.uuid)'
+															class="btn btn-success"> R </span><span
+															ng-show="descriptor.uuid=='2902'"
+															ng-click='toggleDescriptor(device.peripheralId, service.uuid, characteristic.uuid, descriptor.uuid)'
+
+															class="btn btn-info">Toggle Notification </span></td>
+
+														</tr>
+													</tbody>
+												</table></td>
+
+											</tr>
+										</tbody>
+									</table></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+
+			</div>
+
+		</div>
+	</div>
+
+</div>

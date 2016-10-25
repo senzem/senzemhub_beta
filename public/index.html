@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>SenzemHub</title>
+		<meta name="description" content="">
+		<meta name="viewport" content="width=device-width">
+		<!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+		<!-- build:css(.) styles/vendor.css -->
+		<!-- bower:css -->
+		<!-- endbower -->
+		<!-- endbuild -->
+		<!-- build:css(.tmp) styles/main.css -->
+		<link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.min.css">
+
+		<link rel="stylesheet" href="styles/main.css">
+		<!-- endbuild -->
+	</head>
+	<body ng-app="senzemApp">
+		<!--[if lte IE 8]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+		<![endif]-->
+
+		<!-- Add your site or application content here -->
+		<div class="header">
+			<div class="navbar navbar-default" role="navigation">
+				<div class="container">
+
+					<div class="navbar-header">
+
+						<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						<img src="images/logo-full-t.png" height="50px" />
+
+					</div>
+
+					<div class="collapse navbar-collapse" id="js-navbar-collapse">
+
+						<ul class="nav navbar-nav">
+							<li>
+								<a href="#/" style='font-weight: bold; font-size: 1.8em;'>&nbsp;&nbsp;&nbsp;SenzemHub &nbsp;&nbsp;&nbsp;</a>
+							</li>
+							<!-- <li class="active"><a ng-href="#/about">About</a></li>
+							<li><a ng-href="#/app">App</a></li> -->
+
+						</ul>
+						<ul class="nav navbar-nav navbar-right">
+							<li >
+								<a href="#/home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Home</a>
+							</li>
+							<li >
+								<a href="#/update"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Update</a>
+							</li>
+							<li >
+								<a href="#/reboot"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Restart</a>
+							</li>
+							<li >
+								<a href="#/about"><span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span> About</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		 <!--<iframe src="http://localhost:1880" frameborder="0" style="overflow:hidden;overflow-x:hidden;overflow-y:hidden;height:100%;width:100%;position:absolute;top:100px;left:0px;right:0px;bottom:0px" height="100%" width="100%" style="z-index: 99999"></iframe>-->
+		
+		<div class="container-fluid" >
+			<div ng-view=""></div>
+		</div>
+
+		<!--     <div class="footer"> -->
+		<!--       <div class="container"> -->
+		<!--         <p><span class="glyphicon glyphicon-heart"></span> from the Yeoman team</p> -->
+		<!--       </div> -->
+		<!--     </div> -->
+
+		<!-- Google Analytics: change UA-XXXXX-X to be your site's ID -->
+		<!--
+		<script>
+		!function(A,n,g,u,l,a,r){A.GoogleAnalyticsObject=l,A[l]=A[l]||function(){
+		(A[l].q=A[l].q||[]).push(arguments)},A[l].l=+new Date,a=n.createElement(g),
+		r=n.getElementsByTagName(g)[0],a.src=u,r.parentNode.insertBefore(a,r)
+		}(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+		ga('create', 'UA-XXXXX-X');
+		ga('send', 'pageview');
+		</script>
+		-->
+		<!-- build:js(.) scripts/vendor.js -->
+		<!-- bower:js -->
+		<!-- endbower -->
+		<!-- endbuild -->
+
+		<script src="vendor/angular/angular.js"></script>
+		<script src="vendor/angular-animate/angular-animate.js"></script>
+		<script src="vendor/angular-cookies/angular-cookies.js"></script>
+		<script src="vendor/angular-route/angular-route.js"></script>
+		<script src="vendor/angular-sanitize/angular-sanitize.js"></script>
+		<script src="vendor/angular-resource/angular-resource.js"></script>
+		<script src="vendor/angular-touch/angular-touch.js"></script>
+
+		<!-- <script src="scripts/vendor/ui-bootstrap/ui-bootstrap.js"></script>
+		<script src="scripts/vendor/ui-bootstrap/ui-bootstrap-tpls.js"></script> -->
+		<!-- build:js({.tmp,app}) scripts/scripts.js -->
+		<script src="scripts/app.js"></script>
+		<script src="scripts/controllers/main.js"></script>
+		<script src="scripts/controllers/about.js"></script>
+		<script src="scripts/controllers/update.js"></script>
+		<script src="scripts/controllers/reboot.js"></script>
+		<script src="scripts/controllers/app.js"></script>
+
+		<script src="vendor/jquery/dist/jquery.min.js"></script>
+		<script src="vendor/bootstrap/js/dropdown.js"></script>
+		<script src="vendor/bootstrap/js/collapse.js"></script>
+		<!-- endbuild -->
+	</body>
+</html>

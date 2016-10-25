@@ -1,0 +1,37 @@
+<div class="alert alert-warning">
+
+	<p>
+		Following SenzemHub software versions were found:
+	</p>
+	<br />
+	<div>
+		Installed version: &nbsp;&nbsp;&nbsp;&nbsp;<b>{{versions.installed}}</b>
+	</div>
+
+	<div>
+		Available version:&nbsp;&nbsp;&nbsp; <b>{{versions.available}}</b>
+	</div>
+
+	<br />
+	<p>
+		By pressing the <em>Update</em> button, SenzemHub will update its software with the new version, if available.
+	</p>
+	<br />
+
+	<button class="btn btn-success" ng-show="update" ng-click="runUpdate()">
+		Update
+	</button>
+</div>
+
+<div class="alert alert-danger" ng-show="progress">
+	Please wait...
+</div>
+
+<div class="alert" style="white-space: pre-line;">
+	{{message}}
+
+</div>
+
+<div class="alert alert-danger" ng-show="done">
+	IMPORTANT!!!<br> You need to reset device in order to apply the changes!!! <br>	IMPORTANT!!!
+</div>

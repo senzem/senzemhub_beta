@@ -1,0 +1,19 @@
+{
+  "name": "senzemhub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "senzemhub.js",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "noble": "^1.7.0",
+    "request": "^2.72.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "sudo node senzemhub.js"
+  },
+  "author": "Senzem",
+  "license": "ISC"
+}
